@@ -17,7 +17,7 @@ const Filter = () => {
           name="filter"
           onChange={e => dispatch(actions.addFilter(e.currentTarget.value))}
           value={filter}
-          autoComplete="off"
+          autocomplete="off"
         />
         {/* <BiSearchAlt size="18" /> */}
       </Label>

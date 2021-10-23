@@ -2,14 +2,19 @@ import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RiDeleteBin5Fill, RiEditLine } from 'react-icons/ri';
-import { List, Wrapper, StyledButton } from './Contacts.styled';
+import {
+  List,
+  Wrapper,
+  StyledButton,
+  Contact,
+  TextWrapper,
+  ButtonWrapper,
+  NotSettled,
+} from './Contacts.styled';
 import { getFilteredContacts } from '../../redux/contacts/contacts-selectors';
-import { Contact, TextWrapper, ButtonWrapper } from '../ListElement/ListElement.styled';
-import Button from 'react-bootstrap/Button';
 import * as actions from '../../redux/contacts/contacts-actions';
 import contactsOperations from '../../redux/contacts/contacts-operations';
 import Dialog from '../Modal';
-import { getModalState } from '../../redux/modal/modal-selectors';
 import modalActions from '../../redux/modal/modal-actions';
 
 const Contacts = () => {
@@ -21,7 +26,6 @@ const Contacts = () => {
   }, [dispatch]);
 
   const contactsList = useSelector(getFilteredContacts);
-  // const showModal = useSelector(getModalState);
 
   const deleteContact = id => {
     dispatch(actions.resetFilter());
@@ -39,14 +43,13 @@ const Contacts = () => {
   const isListEmpty = contactsList.length === 0;
   return (
     <Wrapper>
-      {isListEmpty && <p>Your contacts List is still empty.</p>}
+      {isListEmpty && <p>Your contacts list is still empty.</p>}
       <List>
         {contactsList &&
           contactsList.map(({ name, number, id }) => (
             <Contact key={id}>
               <TextWrapper>
-                {/* <FaUser /> */}
-                {name}: {number}
+                <b>{name}:</b> {number ? <i>{number}</i> : <NotSettled>-not settled-</NotSettled>}
               </TextWrapper>
               <ButtonWrapper>
                 <StyledButton
@@ -56,14 +59,13 @@ const Contacts = () => {
                 >
                   <RiEditLine />
                 </StyledButton>
-                <Button type="button" onClick={() => deleteContact(id)} variant="primary">
+                <StyledButton type="button" onClick={() => deleteContact(id)} variant="primary">
                   <RiDeleteBin5Fill />
-                </Button>
+                </StyledButton>
               </ButtonWrapper>
             </Contact>
           ))}
       </List>
-      {/* <Dialog contact={patchContact} isShow={showModal} hideModal={hideModal} /> */}
       <Dialog contact={patchContact} />
     </Wrapper>
   );

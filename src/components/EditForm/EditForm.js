@@ -37,7 +37,14 @@ const EditForm = ({ contact }) => {
           Phone
         </Form.Label>
         <Col sm="10">
-          <Form.Control type="tel" defaultValue={number} name="number" />
+          <Form.Control
+            type="tel"
+            defaultValue={number}
+            name="number"
+            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+            title="Номер телефона должен состоять из цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
+            placeholder="not settled"
+          />
         </Col>
       </Form.Group>
       <Button variant="primary" type="submit">

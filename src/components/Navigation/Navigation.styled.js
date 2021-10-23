@@ -15,4 +15,6 @@ export const NavMenu = styled.ul`
 export const StyledLink = styled(NavLink)`
   text-decoration: none;
   font-weight: bold;
+  padding-top: 10px;
+  padding-bottom: 10px;
 `;

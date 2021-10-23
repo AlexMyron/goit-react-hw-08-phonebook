@@ -1,15 +1,16 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { StyledForm, StyledInput, StyledBtn } from './LoginView.styled';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import { ToastContainer, toast } from 'react-toastify';
+import { StyledForm, StyledInput } from './LoginView.styled';
 import Button from 'react-bootstrap/Button';
 import authOperations from '../../redux/auth/auth-operations';
-import { useHistory, useLocation, useRouteMatch } from 'react-router';
+import authSelectors from '../../redux/auth/auth-selectors';
 
 const LoginView = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
-
   const history = useHistory();
 
   const handleChange = ({ target: { name, value } }) => {
@@ -23,13 +24,15 @@ const LoginView = () => {
     }
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    dispatch(authOperations.login({ email, password }));
+
+    const isAuth = await dispatch(authOperations.login({ email, password }));
+    isAuth.payload
+      ? history.push('/contacts')
+      : toast(`${email} is not authorized or the password is wrong`);
     setEmail('');
     setPassword('');
-
-    history.push('/contacts');
   };
 
   return (
@@ -54,6 +57,17 @@ const LoginView = () => {
       <Button type="submit" size="lg">
         Login
       </Button>
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </StyledForm>
   );
 };

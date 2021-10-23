@@ -1,9 +1,8 @@
 import { useSelector, useDispatch } from 'react-redux';
-import Button from 'react-bootstrap/Button';
+import { useHistory } from 'react-router';
 import { Wrapper, DetailsBtn, StyledButton } from './UserMenu.styled';
 import authSelectors from '../../redux/auth/auth-selectors';
 import authOperations from '../../redux/auth/auth-operations';
-
 import actions from '../../redux/modal/modal-actions';
 
 const UserMenu = () => {
@@ -11,9 +10,11 @@ const UserMenu = () => {
   const isLoggedIn = useSelector(authSelectors.getUserToken);
   const token = useSelector(authSelectors.getUserToken);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleClick = () => {
     dispatch(authOperations.logout(token));
+    history.push('/');
   };
 
   const getData = () => {

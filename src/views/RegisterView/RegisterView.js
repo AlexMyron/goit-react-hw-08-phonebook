@@ -3,12 +3,14 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { authOperations } from '../../redux/auth/auth-operations';
 import Button from 'react-bootstrap/Button';
+import { useHistory } from 'react-router-dom';
 
 const RegisterView = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleChange = ({ target: { name, value } }) => {
     switch (name) {
@@ -30,6 +32,7 @@ const RegisterView = () => {
     setName('');
     setEmail('');
     setPassword('');
+    history.push('/contacts');
   };
 
   return (
@@ -42,6 +45,7 @@ const RegisterView = () => {
         onChange={handleChange}
         value={name}
         required
+        autocomplete="off"
       />
       <StyledInput
         type="email"
@@ -50,6 +54,7 @@ const RegisterView = () => {
         onChange={handleChange}
         value={email}
         required
+        autocomplete="off"
       />
       <StyledInput
         type="password"

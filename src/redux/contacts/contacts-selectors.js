@@ -17,6 +17,6 @@ const getFilteredContacts = createSelector([getFilter, getContacts], (filter, co
 });
 
 // const getLoader = state => state.contacts.isLoading;
-const getLoader = state => false;
+const getLoader = state => false; // заглушка
 
 export { getFilteredContacts, getFilter, getContacts, getLoader };

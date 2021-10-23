@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { getModalState, getUserDetails, getModalContent } from '../../redux/modal/modal-selectors';
+import { getModalState, getModalContent } from '../../redux/modal/modal-selectors';
 import actions from '../../redux/modal/modal-actions';
 import EditForm from '../EditForm/EditForm';
 import UserData from '../UserData';
@@ -19,8 +19,6 @@ const Dialog = ({ contact }) => {
     setShow(false);
   };
 
-  const isDataRender = utils.switchContent(modalContent) === 'data';
-  console.log(utils.switchContent(modalContent));
   return (
     <>
       <Modal show={show} onHide={handleClose}>

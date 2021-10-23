@@ -22,5 +22,44 @@ export const Wrapper = styled.div`
 `;
 
 export const StyledButton = styled(Button)`
-  vertical-align: super;
+  ${'' /* vertical-align: super; */}
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Contact = styled.li`
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+
+  :hover,
+  :focus {
+    -webkit-box-shadow: 0px 1px 1px 0px rgba(0, 90, 159, 0.2);
+    -moz-box-shadow: 0px 1px 1px 0px rgba(0, 90, 159, 0.2);
+    box-shadow: 0px 1px 1px 0px rgba(0, 90, 159, 0.2);
+  }
+
+  :not(:first-child) {
+    margin-bottom: 10px;
+  }
+`;
+
+export const TextWrapper = styled.div`
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: space-between;
+  width: 250px;
+`;
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
+export const NotSettled = styled.span`
+  font-style: italic;
+  opacity: 0.5;
 `;
