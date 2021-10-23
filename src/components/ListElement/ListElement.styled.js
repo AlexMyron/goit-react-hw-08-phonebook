@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 export const Button = styled.button`
-  width: 80px;
+  width: 120px;
 
   transition: all 250ms ease;
   &:hover,
@@ -20,4 +20,11 @@ export const TextWrapper = styled.div`
   display: flex;
   gap: 5px;
   align-items: center;
+  justify-content: space-between;
+  width: 250px;
+`;
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  gap: 10px;
 `;

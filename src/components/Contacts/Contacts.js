@@ -1,47 +1,71 @@
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { FaUser } from 'react-icons/fa';
-import { RiDeleteBin5Fill } from 'react-icons/ri';
-import { List } from './Contacts.styled';
-import { getContacts } from '../../redux/phonebook/contacts-selectors';
-import * as phonebookOperations from '../../redux/phonebook/phonebook-operations';
-import { Button, Contact, TextWrapper } from '../ListElement/ListElement.styled';
-import * as actions from '../../redux/phonebook/phonebook-actions';
+import { RiDeleteBin5Fill, RiEditLine } from 'react-icons/ri';
+import { List, Wrapper, StyledButton } from './Contacts.styled';
+import { getFilteredContacts } from '../../redux/contacts/contacts-selectors';
+import { Contact, TextWrapper, ButtonWrapper } from '../ListElement/ListElement.styled';
+import Button from 'react-bootstrap/Button';
+import * as actions from '../../redux/contacts/contacts-actions';
+import contactsOperations from '../../redux/contacts/contacts-operations';
+import Dialog from '../Modal';
+import { getModalState } from '../../redux/modal/modal-selectors';
+import modalActions from '../../redux/modal/modal-actions';
 
 const Contacts = () => {
+  const [patchContact, setPatchContact] = useState({});
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(phonebookOperations.fetchContacts());
+    dispatch(contactsOperations.getContacts());
   }, [dispatch]);
 
-  const contactsList = useSelector(getContacts);
+  const contactsList = useSelector(getFilteredContacts);
+  // const showModal = useSelector(getModalState);
 
-  const handleClick = id => {
+  const deleteContact = id => {
     dispatch(actions.resetFilter());
-    return dispatch(phonebookOperations.deleteContact(id));
+    dispatch(contactsOperations.deleteContact(id));
+    dispatch(contactsOperations.getContacts());
+  };
+
+  const editContact = ({ id, name, number }) => {
+    setPatchContact({ id, name, number });
+    dispatch(modalActions.setModalContent('editForm'));
+    dispatch(modalActions.openModal());
+    return patchContact;
   };
 
   const isListEmpty = contactsList.length === 0;
   return (
-    <div>
+    <Wrapper>
       {isListEmpty && <p>Your contacts List is still empty.</p>}
       <List>
         {contactsList &&
           contactsList.map(({ name, number, id }) => (
             <Contact key={id}>
               <TextWrapper>
-                <FaUser />
+                {/* <FaUser /> */}
                 {name}: {number}
               </TextWrapper>
-              <Button type="button" data-id={id} onClick={() => handleClick(id)}>
-                <RiDeleteBin5Fill />
-              </Button>
+              <ButtonWrapper>
+                <StyledButton
+                  type="button"
+                  onClick={() => editContact({ id, name, number })}
+                  variant="primary"
+                >
+                  <RiEditLine />
+                </StyledButton>
+                <Button type="button" onClick={() => deleteContact(id)} variant="primary">
+                  <RiDeleteBin5Fill />
+                </Button>
+              </ButtonWrapper>
             </Contact>
           ))}
       </List>
-    </div>
+      {/* <Dialog contact={patchContact} isShow={showModal} hideModal={hideModal} /> */}
+      <Dialog contact={patchContact} />
+    </Wrapper>
   );
 };
 

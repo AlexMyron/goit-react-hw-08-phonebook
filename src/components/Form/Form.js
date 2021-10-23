@@ -1,20 +1,20 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
+import Button from 'react-bootstrap/Button';
 import 'react-toastify/dist/ReactToastify.css';
 import { Label, FormSection } from './Form.styled';
-import { getItems } from '../../redux/phonebook/contacts-selectors';
-import * as phonebookOperations from '../../redux/phonebook/phonebook-operations';
+import { getContacts } from '../../redux/contacts/contacts-selectors';
+import contactsOperations from '../../redux/contacts/contacts-operations';
 
 const Form = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const dispatch = useDispatch();
 
-  const contacts = useSelector(getItems);
+  const contacts = useSelector(getContacts);
 
-  const onChange = e => {
-    const { value, name } = e.currentTarget;
+  const handleChange = ({ target: { name, value } }) => {
     switch (name) {
       case 'name':
         setName(value);
@@ -46,17 +46,19 @@ const Form = () => {
       return;
     }
 
-    (() => dispatch(phonebookOperations.postContact({ name, number })))({ name, number });
+    dispatch(contactsOperations.postContact({ name, number }));
+    dispatch(contactsOperations.getContacts());
 
     resetInput();
   };
 
   return (
     <FormSection onSubmit={handleSubmit}>
+      <h2>Add contacts</h2>
       <Label>
         Name
         <input
-          onChange={onChange}
+          onChange={handleChange}
           value={name}
           type="text"
           name="name"
@@ -68,7 +70,7 @@ const Form = () => {
       <Label>
         Number
         <input
-          onChange={onChange}
+          onChange={handleChange}
           type="tel"
           name="number"
           value={number}
@@ -77,7 +79,7 @@ const Form = () => {
           required
         />
       </Label>
-      <button type="submit">Add contact</button>
+      <Button type="submit">Add contact</Button>
       <ToastContainer
         position="top-center"
         autoClose={2000}
