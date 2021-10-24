@@ -6,7 +6,7 @@ import authOperations from '../../redux/auth/auth-operations';
 import actions from '../../redux/modal/modal-actions';
 
 const UserMenu = () => {
-  const userEmail = useSelector(authSelectors.getUserEmail);
+  const userName = useSelector(authSelectors.getUserName);
   const isLoggedIn = useSelector(authSelectors.getUserToken);
   const token = useSelector(authSelectors.getUserToken);
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ const UserMenu = () => {
       {isLoggedIn && (
         <Wrapper>
           <DetailsBtn type="button" onClick={getData}>
-            {userEmail}
+            {userName}
           </DetailsBtn>
           <StyledButton variant="light" type="button" onClick={handleClick}>
             Log out
