@@ -1,10 +1,12 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Route, Switch } from 'react-router';
+import { useEffect } from 'react';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
-import './App.css';
+// import './App.css';
 import { Wrapper, StyledLoader, NavWrapper } from './App.styled';
 import { getLoader } from './redux/contacts/contacts-selectors';
 import authSelectors from './redux/auth/auth-selectors';
+import authOperations from './redux/auth/auth-operations';
 import Navigation from './components/Navigation';
 import UserMenu from './components/UserMenu/UserMenu';
 import AuthNav from './components/AuthNav/AuthNav';
@@ -15,6 +17,10 @@ import LoginView from './views/LoginView';
 const App = () => {
   const isLoading = useSelector(getLoader);
   const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(authOperations.getContactData());
+  }, [dispatch]);
 
   return (
     <Wrapper transparent={isLoading}>

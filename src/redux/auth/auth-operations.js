@@ -45,10 +45,15 @@ const logout = createAsyncThunk('auth/logout', async () => {
   }
 });
 
-const getContactData = createAsyncThunk('auth/getContactData', async () => {
+const getContactData = createAsyncThunk('auth/getContactData', async (_, thunkAPI) => {
+  const state = thunkAPI.getState();
+
+  if (!token) return;
+  if (state.auth.user.name) return;
+  token.set(state.auth.token);
+
   try {
     const { data } = await axios.get('/users/current');
-    // console.log(data);
     return data;
   } catch (error) {
     console.log(error.message);
