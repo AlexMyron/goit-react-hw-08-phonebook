@@ -49,11 +49,10 @@ const getContactData = createAsyncThunk('auth/getContactData', async (_, thunkAP
   const state = thunkAPI.getState();
 
   if (!token) return;
-  if (state.auth.user.name) return;
   token.set(state.auth.token);
 
   try {
-    const { data } = await axios.get('/users/current');
+    const data = await axios.get('/users/current');
     return data;
   } catch (error) {
     console.log(error.message);

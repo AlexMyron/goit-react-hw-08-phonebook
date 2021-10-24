@@ -18,7 +18,6 @@ const UserMenu = () => {
   };
 
   const getData = () => {
-    dispatch(authOperations.getContactData());
     dispatch(actions.setModalContent('userData'));
     dispatch(actions.openModal());
   };

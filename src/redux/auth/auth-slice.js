@@ -27,7 +27,7 @@ const authSlice = createSlice({
       state.isLoggedIn = false;
     },
     [authOperations.getContactData.fulfilled](state, action) {
-      state.user = action.payload;
+      state.user = action.payload.data;
       state.isLoggedIn = true;
     },
   },
